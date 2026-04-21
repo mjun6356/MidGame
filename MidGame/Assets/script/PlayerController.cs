@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     
-    public float baseSpeed = 6f;
-    public float moveSpeed = 3f;
+    public float baseSpeed = 1f;
+    
     public float jumpForce = 3f;
     public Transform groundCheck;
     public LayerMask groundLayer;
@@ -17,7 +17,8 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
 
     private bool isGiant = false;
-    private bool isMoving = false;
+    public bool hasSpeedItem = false;
+    public bool isInvincible = false; // 무적 상태인가?
 
     private float moveInput;
 
@@ -32,8 +33,10 @@ public class PlayerController : MonoBehaviour
     {
         rb.linearVelocity = new Vector2(moveInput * baseSpeed, rb.linearVelocity.y);
 
-        float moveX = Input.GetAxisRaw("Horizontal");
-        transform.Translate(Vector2.right * moveX * moveSpeed * Time.deltaTime);
+        if (!hasSpeedItem) // 아이템을 먹지 않은 상태라면 (!는 '아니다'라는 뜻)
+        {
+            baseSpeed = 1f; // 기본 속도 6으로 고정
+        }
 
         if (isGiant)
         {
@@ -50,30 +53,16 @@ public class PlayerController : MonoBehaviour
                 transform.localScale = new Vector3(-1, 1, 1);
         }
 
-        /*if (isMoving)
-        {
-            if (moveInput < 0)
-                moveSpeed = 6f;
-            else if (moveInput > 0)
-                moveSpeed = 6f;
-        }
-        else
-        {
-            if (moveInput < 0)
-                moveSpeed = 6f;
-            else if (moveInput > 0)
-                moveSpeed = 6f;
-        }*/
-
+        
 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
 
-    /*public void OnMove(InputValue value)
+    public void OnMove(InputValue value)
     {
         Vector2 intput = value.Get<Vector2>();
         moveInput = intput.x;
-    }*/
+    }
 
     public void OnJump(InputValue value)
     {
@@ -114,19 +103,29 @@ public class PlayerController : MonoBehaviour
 
         if (collision.CompareTag("Item2"))
         {
-            isMoving = true;
-            Invoke(nameof(ResetMoving), 6f);
+            // 내(플레이어) 속도를 직접 올리기
+            baseSpeed = 12f;
+            hasSpeedItem = true; // 스위치 켜기
+            Invoke(nameof(ResetSpeedBoosthing), 6f);
+            // 부딪힌 아이템 오브젝트를 삭제
+            Destroy(collision.gameObject);
+
+        }
+      
+        if (collision.CompareTag("Item3"))
+        {
+            // 무적 상태 시작!
+            StartCoroutine(BecomeInvincible(5f)); // 5초 동안 무적!
             Destroy(collision.gameObject);
         }
     }
-
-   void ResetGiant()
+    void ResetGiant()
     {
         isGiant = false;
     }
-    void ResetMoving()
+   
+    void ResetSpeedBoosthing()
     {
-        isMoving = false;
+        hasSpeedItem = false;
     }
-
 }

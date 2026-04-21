@@ -10,6 +10,7 @@ TagManager:
   - Obstacle
   - Item
   - Item2
+  - Item3
   layers:
   - Default
   - TransparentFX

@@ -271,7 +271,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5104931597524899373}
-  m_BodyType: 2
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -288,7 +288,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!233 &2098163508716506126
 HingeJoint2D:
@@ -306,7 +306,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0.05, y: 0.022302153}
-  m_ConnectedAnchor: {x: 0.00850004, y: 0}
+  m_ConnectedAnchor: {x: 0.00849998, y: -0.000000007450581}
   m_UseConnectedAnchor: 1
   m_UseMotor: 0
   m_Motor:
@@ -339,7 +339,7 @@ EdgeCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 9473ca87db0d46347b8c0c5b8350a328, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -405,7 +405,7 @@ GameObject:
   - component: {fileID: 1618894733641225401}
   - component: {fileID: 4611277006345105884}
   - component: {fileID: 6429945641830075580}
-  - component: {fileID: 4147631029795315726}
+  - component: {fileID: 5175633656848816714}
   - component: {fileID: 5287622387645215415}
   - component: {fileID: 3094372282938308722}
   - component: {fileID: 1530422475547477112}
@@ -425,7 +425,7 @@ Transform:
   m_GameObject: {fileID: 5522692624981104605}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.616, y: 0.305, z: 0}
+  m_LocalPosition: {x: -1, y: 0.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -523,7 +523,7 @@ MonoBehaviour:
   m_DefaultActionMap: 
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &4147631029795315726
+--- !u!114 &5175633656848816714
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -535,8 +535,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66a1741f4fae6f146a1bb1065efe9de6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  moveSpeed: 3
-  jumpForce: 1
+  baseSpeed: 1
+  moveSpeed: 6
+  jumpForce: 3
   groundCheck: {fileID: 5775379249926431084}
   groundLayer:
     serializedVersion: 2
