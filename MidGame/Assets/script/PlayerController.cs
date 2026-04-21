@@ -30,6 +30,13 @@ public class PlayerController : MonoBehaviour
         pAni = GetComponent<Animator>();
     }
 
+    void Die()
+    {
+        int randomDeathIndex = Random.Range(1, 6);
+        SceneManager.LoadScene("Death " + randomDeathIndex);
+    }
+
+
     void Update()
     {
         rb.linearVelocity = new Vector2(moveInput * baseSpeed, rb.linearVelocity.y);
@@ -81,7 +88,7 @@ public class PlayerController : MonoBehaviour
 
         if (collision.CompareTag("Respawn"))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            Die();
         }
 
         if (collision.CompareTag("Finish"))
@@ -97,15 +104,16 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                Die();
             }
 
         }
 
+
         if (collision.CompareTag("Item"))
         {
             isGiant = true;
-            Invoke(nameof(ResetGiant), 6f);
+            Invoke(nameof(ResetGiant), 15f);
             Destroy(collision.gameObject);
         }
 
@@ -114,7 +122,7 @@ public class PlayerController : MonoBehaviour
             // 내(플레이어) 속도를 직접 올리기
             baseSpeed = 12f;
             hasSpeedItem = true; // 스위치 켜기
-            Invoke(nameof(ResetSpeedBoosthing), 6f);
+            Invoke(nameof(ResetSpeedBoosthing), 15f);
             // 부딪힌 아이템 오브젝트를 삭제
             Destroy(collision.gameObject);
 
