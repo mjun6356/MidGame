@@ -1,3 +1,4 @@
+
 using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -57,7 +58,7 @@ public class PlayerController : MonoBehaviour
 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
-
+   
     public void OnMove(InputValue value)
     {
         Vector2 intput = value.Get<Vector2>();
@@ -76,6 +77,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
+
         if (collision.CompareTag("Respawn"))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -87,10 +90,15 @@ public class PlayerController : MonoBehaviour
         }
         if (collision.CompareTag("Enemy"))
         {
-            if (isGiant)
+            // 거대화 상태이거나 '무적 상태'라면 적을 파괴 (또는 그냥 통과)
+            if (isGiant || isInvincible)
+            {
                 Destroy(collision.gameObject);
+            }
             else
+            {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
 
         }
 
@@ -111,13 +119,16 @@ public class PlayerController : MonoBehaviour
             Destroy(collision.gameObject);
 
         }
-      
+        
+
+
         if (collision.CompareTag("Item3"))
         {
-            // 무적 상태 시작!
-            StartCoroutine(BecomeInvincible(5f)); // 5초 동안 무적!
+            isInvincible = true; // 무적 켜기
+            Invoke(nameof(ResetInvincibility), 5f); // 5초 뒤 무적 해제
             Destroy(collision.gameObject);
         }
+       
     }
     void ResetGiant()
     {
@@ -128,4 +139,9 @@ public class PlayerController : MonoBehaviour
     {
         hasSpeedItem = false;
     }
-}
+    void ResetInvincibility()
+    {
+        isInvincible = false;
+    }
+    
+    }
