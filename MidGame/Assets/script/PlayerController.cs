@@ -23,11 +23,13 @@ public class PlayerController : MonoBehaviour
 
     private float moveInput;
 
+    float score;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         pAni = GetComponent<Animator>();
+        score = 0f;
     }
 
     void Die()
@@ -93,6 +95,8 @@ public class PlayerController : MonoBehaviour
 
         if (collision.CompareTag("Finish"))
         {
+            HighScore.TrySet(SceneManager.GetActiveScene().buildIndex, (int)score);
+
             collision.GetComponent<LevelObject>().MoveToNextLevel();
         }
         if (collision.CompareTag("Enemy"))
@@ -115,6 +119,8 @@ public class PlayerController : MonoBehaviour
             isGiant = true;
             Invoke(nameof(ResetGiant), 15f);
             Destroy(collision.gameObject);
+
+            score += 100f;
         }
 
         if (collision.CompareTag("Item2"))
@@ -126,6 +132,8 @@ public class PlayerController : MonoBehaviour
             // 부딪힌 아이템 오브젝트를 삭제
             Destroy(collision.gameObject);
 
+            score += 100f;
+
         }
         
 
@@ -135,6 +143,8 @@ public class PlayerController : MonoBehaviour
             isInvincible = true; // 무적 켜기
             Invoke(nameof(ResetInvincibility), 5f); // 5초 뒤 무적 해제
             Destroy(collision.gameObject);
+
+            score += 100f;
         }
        
     }
@@ -152,4 +162,4 @@ public class PlayerController : MonoBehaviour
         isInvincible = false;
     }
     
-    }
+}
